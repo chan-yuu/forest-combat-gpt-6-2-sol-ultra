@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1919">
+  <title>暮林之战 · 剑盾战斗 Demo</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js"
+      }
+    }
+  </script>
+  <script defer src="./scene.js"></script>
+  <script defer src="./audio.js"></script>
+  <script defer src="./game.js"></script>
+</head>
+<body>
+  <main id="game" aria-label="暮林之战">
+    <div id="viewport" aria-label="3D 战斗场景"></div>
+    <div class="screen-shading" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="wordmark">
+        <span class="wordmark-emblem" aria-hidden="true"><i class="glyph glyph-sword"></i></span>
+        <span><strong>暮林之战</strong><small>森林竞技场</small></span>
+      </div>
+      <div class="encounter">
+        <div class="encounter-stat"><span>遭遇</span><strong id="wave-label">第 1 波</strong></div>
+        <div class="encounter-stat"><span>敌人</span><strong id="enemy-count">—</strong></div>
+        <button id="mute-button" class="quiet-button" type="button" aria-pressed="false" aria-label="切换声音" title="切换声音">声音开</button>
+      </div>
+    </header>
+
+    <div id="boss-hud" class="boss-hud" hidden>
+      <div class="bar-label"><strong>半兽人统领</strong><span id="boss-value"></span></div>
+      <div class="meter boss-meter" role="presentation"><i id="boss-fill"></i></div>
+    </div>
+
+    <div class="toast-slot"><div id="toast" role="status" aria-live="polite"></div></div>
+
+    <div class="bottom-hud">
+      <section class="vitals" aria-label="战士状态">
+        <div class="vital-heading"><strong>剑盾战士</strong><span id="shield-state">盾牌在手</span></div>
+        <div class="vital-row">
+          <div class="bar-label"><span>生命</span><span id="health-value">120 / 120</span></div>
+          <div class="meter health-meter" role="presentation"><i id="health-fill"></i></div>
+        </div>
+        <div class="vital-row">
+          <div class="bar-label"><span>怒气</span><span id="rage-value">0 / 100</span></div>
+          <div class="meter rage-meter" role="presentation"><i id="rage-fill"></i></div>
+        </div>
+        <div class="pip-row"><span>怒气点</span><div class="pips" role="img" aria-label="0 / 3 个怒气点"><i data-pip="1"></i><i data-pip="2"></i><i data-pip="3"></i></div></div>
+      </section>
+
+      <section class="skill-tray" aria-label="怒气技能">
+        <button class="skill" data-skill="1" type="button" title="盾击 · 消耗 1 个怒气点" disabled>
+          <kbd>1</kbd><i class="glyph glyph-shield" aria-hidden="true"></i>
+          <strong>盾击</strong><span class="skill-cost" role="img" aria-label="1 个怒气点"><i></i></span>
+        </button>
+        <button class="skill" data-skill="2" type="button" title="飞盾 · 消耗 2 个怒气点" disabled>
+          <kbd>2</kbd><i class="glyph glyph-throw" aria-hidden="true"></i>
+          <strong>飞盾</strong><span class="skill-cost" role="img" aria-label="2 个怒气点"><i></i><i></i></span>
+        </button>
+        <button class="skill" data-skill="3" type="button" title="旋风斩 · 消耗 3 个怒气点" disabled>
+          <kbd>3</kbd><i class="glyph glyph-spin" aria-hidden="true"></i>
+          <strong>旋风斩</strong><span class="skill-cost" role="img" aria-label="3 个怒气点"><i></i><i></i><i></i></span>
+        </button>
+      </section>
+
+      <section class="controls" aria-label="键盘和鼠标操作">
+        <div><span><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></span><span>移动</span></div>
+        <div><span class="control-key">鼠标</span><span>瞄准</span></div>
+        <div><span><span class="control-key">左键</span> <span class="control-or">/</span> <kbd>空格</kbd></span><span>挥剑</span></div>
+        <div><kbd>Shift</kbd><span>闪避</span></div>
+        <div><kbd>R</kbd><span>重开</span></div>
+      </section>
+    </div>
+
+    <section id="overlay" class="overlay" aria-labelledby="overlay-title">
+      <div class="overlay-panel">
+        <h1 id="overlay-title">暮林之战</h1>
+        <p id="overlay-text">近身挥剑命中可积攒怒气。怒气每满一条就转化为 1 个怒气点，最多储存 3 个，用来施放技能。</p>
+        <button id="start-button" class="start-button" type="button" disabled>进入战斗</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
